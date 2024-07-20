@@ -1,14 +1,12 @@
-**So, you want to create a VS2 addon?**
+This addon allows VS2 Ships to be displayed on Dynmap in two forms
 
-__Well, here is the template for you!__
+**Icon Markers**
+- Adds an Icon onto Dynmap where the Ship's Center of Mass is located
+- Icon switches to a greyscaled version if the Ship is unloaded
 
-This template is a gutted version of 1.18.2 [Eureka](https://github.com/ValkyrienSkies/Eureka)
-so some stuff may be left over that you wont necessarily make use of such as publishing to VS Maven
+**Polyline Markers**
+- Draws the Ship's Worldspace AABB as a polyline structure with a random color
 
-__This template's dependencies include:__
-- Architectury API (*its easier than the weird custom services Eureka uses*)
-- Valkyrien Skies 2
-- VS Core
-- Kotlin for Forge
+Both Markers show the Ship's Slug, ID, and Mass when clicked by default
 
-![vs_addon_template_logo](https://github.com/TechTastic/VS-Addon-Template/assets/74630543/de76337a-387d-44a4-aac0-f42f97bae499)
+![vynmap logo](https://github.com/TechTastic/Vynmap/blob/1.18.x/main/fabric/src/main/resources/assets/vynmap/icon.png)
