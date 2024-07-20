@@ -25,9 +25,7 @@ object VynmapAPIListener: DynmapCommonAPIListener() {
         TickEvent.SERVER_LEVEL_POST.register(this::updateMarkers)
     }
 
-    override fun apiEnabled(api: DynmapCommonAPI?) {
-        if (api == null)
-            return
+    override fun apiEnabled(api: DynmapCommonAPI) {
         this.commonAPI = api
     }
 
@@ -40,15 +38,13 @@ object VynmapAPIListener: DynmapCommonAPIListener() {
         val markerSet = getOrCreateMarkerSet() ?: return
 
         // Update Markers
-        val showIconMarkers = config.getMarkersDisplayed().canShowIconMarkers()
         clearUnusedIconMarkers(markerSet, allShips)
-        if (showIconMarkers)
+        if (this.config.getMarkersDisplayed().canShowIconMarkers())
             allShips.forEach { ship -> renderShipIconMarker(ship, markerSet, world, loadedShips.contains(ship.id)) }
 
         // Update Polyline Markers
-        val showPolyLineMarker = config.getMarkersDisplayed().canShowPolylineMarkers()
         clearUnusedPolylineMarkers(markerSet, allShips)
-        if (showPolyLineMarker)
+        if (this.config.getMarkersDisplayed().canShowPolylineMarkers())
             allShips.forEach { ship -> renderShipPolylineMarker(ship, markerSet, world) }
     }
 
@@ -67,7 +63,7 @@ object VynmapAPIListener: DynmapCommonAPIListener() {
 
     private fun renderShipIconMarker(data: ServerShip, markerSet: MarkerSet, world: String, isLoaded: Boolean) {
         val pos = data.transform.positionInWorld
-        val label = createShipLabel(data, config)
+        val label = createShipLabel(data, this.config)
         val icon = if (isLoaded)
             getOrCreateLoadedIcon()
         else
@@ -83,7 +79,7 @@ object VynmapAPIListener: DynmapCommonAPIListener() {
     }
     private fun renderShipPolylineMarker(data: ServerShip, markerSet: MarkerSet, world: String) {
         val arrays = getArraysFromAABB(data.worldAABB)
-        val label = createShipLabel(data, config)
+        val label = createShipLabel(data, this.config)
         val marker: PolyLineMarker = markerSet.findPolyLineMarker("ship${data.id}") ?: run {
             val self = markerSet.createPolyLineMarker("ship${data.id}", label, true, world, arrays.first, arrays.second, arrays.third, true)
             self?.setLineStyle(5, self.lineOpacity, Random.nextInt(0x000000, 0xFFFFFF))
@@ -95,24 +91,24 @@ object VynmapAPIListener: DynmapCommonAPIListener() {
 
 
     private fun getOrCreateLoadedIcon(): MarkerIcon? =
-            commonAPI?.markerAPI?.getMarkerIcon("loaded_ship") ?: run {
+            this.commonAPI?.markerAPI?.getMarkerIcon("loaded_ship") ?: run {
                 PlatformUtils.getDynmapServer()?.let {
-                    val icon = commonAPI?.markerAPI?.createMarkerIcon("loaded_ship", "ship", it.openResource(MOD_ID, PlatformUtils.getIconPath()))
+                    val icon = this.commonAPI?.markerAPI?.createMarkerIcon("loaded_ship", "ship", it.openResource(MOD_ID, PlatformUtils.getIconPath()))
                     icon
                 }
             }
 
     private fun getOrCreateUnloadedIcon(): MarkerIcon? =
-            commonAPI?.markerAPI?.getMarkerIcon("unloaded_ship") ?: run {
+            this.commonAPI?.markerAPI?.getMarkerIcon("unloaded_ship") ?: run {
                 PlatformUtils.getDynmapServer()?.let {
-                    val icon = commonAPI?.markerAPI?.createMarkerIcon("unloaded_ship", "ship", it.openResource(MOD_ID, "assets/vynmap/dynmap/unloaded"))
+                    val icon = this.commonAPI?.markerAPI?.createMarkerIcon("unloaded_ship", "ship", it.openResource(MOD_ID, "assets/vynmap/dynmap/unloaded"))
                     icon
                 }
             }
 
     private fun getOrCreateMarkerSet(): MarkerSet? =
-            commonAPI?.markerAPI?.getMarkerSet(MOD_ID) ?: run {
-                commonAPI?.markerAPI?.createMarkerSet(MOD_ID, "Vynmap Markers", null, true)
+            this.commonAPI?.markerAPI?.getMarkerSet(MOD_ID) ?: run {
+                this.commonAPI?.markerAPI?.createMarkerSet(MOD_ID, "Vynmap Markers", null, true)
             }
 
     // Dont judge, idk why they dont just let me put in an AABB to be drawn with PolylineMarker
