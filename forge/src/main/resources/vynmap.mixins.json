@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "plugin": "io.github.techtastic.vynmap.forge.mixin.ValkyrienForgeMixinConfigPlugin",
   "server": [
+    "MixinDynmapPlugin"
   ],
   "injectors": {
     "defaultRequire": 1
