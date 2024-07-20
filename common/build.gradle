@@ -3,7 +3,7 @@ architectury {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/vs_addon_template.accesswidener")
+    accessWidenerPath = file("src/main/resources/vynmap.accesswidener")
 }
 
 dependencies {
@@ -25,6 +25,9 @@ dependencies {
 
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10"
     api "org.jetbrains.kotlin:kotlin-reflect:1.9.10"
+
+    // Dynmap
+    modCompileOnly("curse.maven:dynmap-59433:4979041")
 }
 
 publishing {

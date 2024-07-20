@@ -1,21 +1,27 @@
-package io.github.techtastic.vs_addon_template.forge
+package io.github.techtastic.vynmap.forge
 
+import io.github.techtastic.vynmap.VynmapMod.MOD_ID
+import io.github.techtastic.vynmap.VynmapMod.init
+import io.github.techtastic.vynmap.VynmapMod.initClient
+import io.github.techtastic.vynmap.forge.config.VynmapForgeConfig
 import net.minecraftforge.eventbus.api.IEventBus
+import net.minecraftforge.fml.ModLoadingContext
 import net.minecraftforge.fml.common.Mod
+import net.minecraftforge.fml.config.ModConfig
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
-import io.github.techtastic.vs_addon_template.VSAddonTemplateMod
-import io.github.techtastic.vs_addon_template.VSAddonTemplateMod.init
-import io.github.techtastic.vs_addon_template.VSAddonTemplateMod.initClient
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
 
-@Mod(VSAddonTemplateMod.MOD_ID)
-class VSAddonTemplateModForge {
+@Mod(MOD_ID)
+class VynmapModForge {
     init {
         MOD_BUS.addListener { event: FMLClientSetupEvent? ->
             clientSetup(
                 event
             )
         }
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, VynmapForgeConfig.SPEC, "$MOD_ID-config.toml")
+
         init()
     }
 

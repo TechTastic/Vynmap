@@ -40,6 +40,14 @@ dependencies {
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+
+    // Dynmap
+    modImplementation("curse.maven:dynmap-59433:4979041")
+
+    // Forge Config API
+    include(modImplementation("curse.maven:forge-config-api-547434:3943250"))
+    implementation(include('com.electronwill.night-config:core:3.6.5'))
+    implementation(include('com.electronwill.night-config:toml:3.6.5'))
 }
 
 processResources {
